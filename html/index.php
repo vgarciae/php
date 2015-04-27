@@ -1,15 +1,14 @@
 <?php
-
 /**
 * Comentario
 */
-
+require_once('lib/template.php');
 echo "Hola, bienvenido al curso!";
 
 class App{
 
-	$url=null;
-	$filePath=null;
+	public $url=null;
+	public $filePath=null;
 
 	public function App(){
 		$this->url="";
@@ -30,9 +29,18 @@ class App{
 	public function setPath($path=null){
 		$this->path=$path;
 	}
-
+	
 }
 
 $app=new App();
+$tmpl=new Template("views/default.html");
 
+$tmpl->set('title',getPageName('Dashboard'));
+$tmpl->set('wpath',getWebPath());
+$tmpl->set('box1','Alta de usuarios');
+$tmpl->set('box2','Baja de usuarios');
+$tmpl->set('box3','Configuración');
+
+echo $tmpl->render();
 ?>
+
