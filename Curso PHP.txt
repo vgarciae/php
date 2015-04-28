@@ -1,0 +1,135 @@
+
+Usuario y contraseña tanto de virtual box como de winscp
+devphp/123PHP
+
+En VirtualBox con ctrl+a, me da la opcion de cargar la maquina virtual, en este caso:
+CursoPHP.vdi
+
+En VirtualBox con ctrl+a, para correr: clic en Mostrar
+
+En VirtualBox:Configuracion/red/reenvio de puertos
+Debe haber dos registros: 
+Apache 8888 80
+SSH    4444 22 
+Lo anterior permite no usar los puertos 80 y 22 que seguramente
+ya estan usandose
+
+
+Comando:
+
+sudo shutdown -h now
+SUDO SHUTDOWN -H NOW
+123PHP
+
+
+
+WINSCP
+127.0.0.1 Puerto:4444
+devphp/123PHP
+cambiar opciones de puerto
+
+
+https://github.com/vgarciae/php
+
+En web voy a localhost:8888
+En web http://127.0.0.1:8888/config.php
+
+En WinSCP voy a localhost:puerto
+En la ruta: /etc/php5/cli veo el archivo php.ini
+En la ruta: /home/devphp/html/index.php veo el resultado de: localhost:8888
+Aqui generar el config.php
+
+Altas, bajas y cambios de un directorio privado
+Datos personales y laborales
+Modelo vista controlador
+Controlador: aplicacion y configuracion de la aplicacion
+
+PRACTICA:
+No se recomienda mezclar o intercalar: script con html
+
+$this->url para referirnos a atributos
+
+Mas de una clase en un archivo sí, clase dentro de otra clase: al parecer si pero mejor no usarlo
+para que no sea caotico
+
+Debo bajar un cliente para github y así poder clonar mi proyecto y subirlo al repositorio
+OJO: DOS COSAS PARA PUBLICARRRRRRR:
+El commit se clona en la rama maestra en local, sync lo sube al repositorio
+
+El cliente para windows lo instalo en: https://windows.github.com/
+Clono el proyecto que ya habia creado en la cuenta en la web, se creo en el 
+escritorio y con WinSCP, abro escritorio local y la carpeta html.
+Al final debo copiar remoto a local para que se actulice y pueda darle commit
+
+No hay una definicion estandar para carpetas en PHP
+
+
+Descargar bootstrap:
+http://getbootstrap.com/getting-started/#download
+Descomprimir y copiar las 3 carpetas a assets
+
+Descargar jquery de:
+https://jquery.com/download/
+Poner el js en la carpeta assets/js junto con los js de bootstrap
+
+bootstrap: md mediano, 12 maximo de columnas
+
+En /var/log/apache2 veo los logs y los errrores 
+
+
+/home/devphp/html
+/var/log/apache2
+
+
+Si es una clase que no es estatica entonces si necesita forzosamente un constructor
+Si es estatica no necesita constructor
+
+En caso de error por encoding: <meta charset="utf-8"/> en eL header.html debajo de <title>
+
+El default.html tiene get_header y get_footer, en index.php quiero interpolar datos, pero
+no se interpola en cascada. Es decir no lo hace en los archivos que se agregan con los metodos
+
+Si hay una forma de ensamblar las 3 partes en un solo stream, antes de hacer la interpolacion
+La solucion eventual es que default.html le pongamos directamente el require_once, así si funciona, 
+primero integra todo y despues interpola
+
+define('CUR_NAME','cphp'); // no es necesario mayusculas, pero por mejor practica si
+
+
+Día dos:
+Descargar de: https://github.com/dnlmx/curso-php el contenido de las carpetas.
+
+Antes del llamado a función, pones @ antes, para que el error no mande error, ni en pantalla ni en el log
+
+Las constantes no estan obligadas a llevar el signo de $
+
+Los icono son: svg vienen dentro de bootstrap
+
+lifetime lo toma de php.ini, se puede configurar mas
+
+3306 por 9990
+
+mysql -u -h
+Usr:root/123PHP
+Base: curphp
+3306 o por ssh 4444
+
+
+sudo apt-get install phpmyadmin
+
+sudo dpkg-reconfigure phpmyadmin
+
+En la web: http://127.0.0.1:8888/phpmyadmin
+Se crea la base de datos: curphp
+El cotejamiento es: utf8_general_ci
+
+Cargamos el sql login.sql
+
+En consultas s String, i entero,
+
+En PHP nulo es distinto de vacio
+
+// Con lo siguiente podemos hacer un volcado de variables
+print_r($_GET);
+print_r($_POST);
+

@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title><?php echo $title;?></title>
+	<meta charset="utf-8"/>
+	<script type="text/javascript" src="<?php echo $wpath;?>assets/js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="<?php echo $wpath;?>assets/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $wpath;?>assets/css/bootstrap-theme.css"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo $wpath;?>assets/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Control de usuarios registrados<small>Sistema PHP</small></h1>
+			<ul class="nav nav-tabs">
+				<li><a href="newUser.php" class="current">Alta de usuarios</a></li>
+				<li><a href="changeUser.php">Cambios</a></li>
+				<li><a href="configuration.php">Configuración</a></li>
+				<li><a href="login.php?p=logout">Cerrar sesión</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="container">
