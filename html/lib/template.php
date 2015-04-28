@@ -11,8 +11,11 @@ class Template{
 	protected $_file;
 	protected $_data=array();
 	
-	public function __construct($file=null){
-		$this->_file=$file;
+	public function __construct($file=null,$ext="html"){
+		$this->_file=CUR_VIEWS_PATH.$file.".".$ext;
+		if(!file_exists($this->_file)){
+			throw new Exception("no existe el archivo de template ".$file." en la ruta ".$this->_file);
+		}
 	}
 	public function set($key,$value){
 		$this->_data[$key]=$value;

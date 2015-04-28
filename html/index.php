@@ -33,7 +33,7 @@ class App{
 }
 
 $app=new App();
-$tmpl=new Template("views/default.html");
+$tmpl=new Template("default");
 
 $tmpl->set('title',getPageName('Dashboard'));
 $tmpl->set('wpath',getWebPath());
