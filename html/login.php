@@ -10,29 +10,48 @@
 	else{
 		$logged='out';
 	}
+	sec_session_start();
 
-	if(isset($_POST['email'],$_POST['password'])){
-		sec_session_start();
-		$email=filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL);
-		$password=$_POST['password'];
-		if(login($email,$password,$mysqli)){
-			header("Location: index.php");			
-			exit();
+	if(isset( $_GET['action']) && $_GET['action']=='register'){
+		if(isset($_POST['username'],$_POST['confirmpwd'])){
+			//print_r($_POST);
+			//var_dump($_POST);
+			//die();
+			register_user($mysqli,$_POST['username'],$_POST['email'],$_POST['p']);
 		}
 		else{
-			header("Location: login.php?err=1");
-			exit();
+			$tmpl=new Template("register");
+			$tmpl->set('title',getPageName('Registro de usuario'));
+			$tmpl->set('wpath',getWebPath());
+			$tmpl->set('msg',get_message());
+						
+			echo $tmpl->render();
 		}
-	}
-	else{	
-		$tmpl=new Template("login");
-		$tmpl->set('title',getPageName('Inicio de sesión'));
-		$tmpl->set('wpath',getWebPath());
 			
-		if(isset($_GET['err'])){
-			$tmpl->set('err',$_GET['err']);		
+	}
+	else{
+		if(isset($_POST['email'],$_POST['p'])){
+			
+			$email=filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL);
+			$password=$_POST['p'];
+			
+			if(login($email,$password,$mysqli)){
+				header("Location: index.php");			
+				exit();
+			}
+			else{
+				set_message('danger','Usuario o contraseña invalido1.');
+				header("Location: login.php");
+				exit();
+			}
 		}
-		
-		echo $tmpl->render();
+		else{	
+			$tmpl=new Template("login");
+			$tmpl->set('title',getPageName('Inicio de sesión'));
+			$tmpl->set('wpath',getWebPath());
+			$tmpl->set('msg',get_message());
+						
+			echo $tmpl->render();
+		}
 	}
 ?>

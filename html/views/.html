@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?php echo $title; ?></title>
+	<meta charset="utf-8" />
+	<script type="text/javascript" src="<?php echo $wpath; ?>assets/js/jquery.js" ></script>
+	<script type="text/javascript" src="<?php echo $wpath; ?>assets/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="<?php echo $wpath; ?>assets/js/sha512.js" ></script>
+	<script type="text/javascript" src="<?php echo $wpath; ?>assets/js/forms.js" ></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $wpath; ?>assets/css/bootstrap-theme.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $wpath; ?>assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $wpath; ?>assets/css/login.css" />
+
+</head>
+
+<body>
+
+<section id="login">
+    <div class="container">
+    	<div class="row">
+    		<?php echo $msg;  ?>            
+    	</div>
+    	<div class="row">
+    	    <div class="col-xs-12">
+        	    <div class="form-wrap">
+                <h1>Registro de usuarios</h1>
+                    <form role="form" action="login.php" method="post" id="login-form" autocomplete="off">
+                       <div class="form-group">
+                            <label for="username" class="sr-only">Nombre de usuario</label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Nombre de usuario">
+                        </div>                        
+                        <div class="form-group">
+                            <label for="email" class="sr-only">Correo electrónico</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="sr-only">Contraseña</label>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmpwd" class="sr-only">Confirmar contraseña</label>
+                            <input type="password" name="confirmpwd" id="confirmpwd" class="form-control" placeholder="Confirmar contraseña">
+                        </div>
+                        <input type="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Registrar" onclick="return regformhash(this.form,
+                                   this.form.username,
+                                   this.form.email,
+                                   this.form.password,
+                                   this.form.confirmpwd);">
+                    </form>
+                    <a href="<?php echo $wpath; ?>login.php" class="register">Regresar a la página de inicio de sesión</a>
+                    <hr>
+        	    </div>
+    		</div> <!-- /.col-xs-12 -->
+    	</div> <!-- /.row -->
+    </div> <!-- /.container -->
+</section>
+
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Copyright © - 2015</p>
+                <p>Curso PHP - 27-30 Abril</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

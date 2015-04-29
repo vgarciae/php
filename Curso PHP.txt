@@ -28,7 +28,7 @@ WINSCP
 devphp/123PHP
 cambiar opciones de puerto
 
-
+https://github.com/dnlmx/curso-php
 https://github.com/vgarciae/php
 
 En web voy a localhost:8888
@@ -133,3 +133,23 @@ En PHP nulo es distinto de vacio
 print_r($_GET);
 print_r($_POST);
 
+test@example.com
+6ZaxN2Vzm9NUJT2y
+
+test@example.com
+6ZaxN2Vzm9NUJT2ys
+
+
+Instalar sublime para editar PHP
+
+unset lo que hace es borrar las variables de sesion, eso para que deje el ultimo mensaje de error
+
+Cuando estas trabajando con sesiones limpia cabeceras y manda encabezados, manda error
+
+Certificacion de PHP: SENT pearson
+
+			print_r($_POST);
+			var_dump($_POST);
+
+
+Los dos imprimen en la pagina, pero el segundo le da un formato mas bonito

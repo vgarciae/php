@@ -1,11 +1,11 @@
 <?php
-
+// YA LO REVISE
 define("CUR_HOST",'localhost');
 define("CUR_USR",'root');
 define("CUR_PWD",'123PHP');
 define("CUR_DB",'curphp');
 
-define('CUR_PREFX','cphp_');
+define('CUR_PREF','cphp_');
 
 define('CUR_NAME','Directorio de usuarios');
 define('CUR_WEBPATH','http://localhost:8888/');

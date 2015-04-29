@@ -1,4 +1,5 @@
 <?php
+// YA LO REVISE
 function sec_session_start(){
 	$session_name='sec_session_id';
 	$secure=false;
@@ -23,19 +24,23 @@ function login($email,$password,$mysqli){
 		$stmt->bind_result($user_id,$username,$password_bd,$salt);
 		$stmt->fetch();
 		
-		$password=hash('sha512',$password_bd.$salt);
+		$password=hash('sha512',$password.$salt);
+		
 		if($stmt->num_rows==1){
-			//if(check_brute($user_id,$mysqli)==TRUE){
-				//return false;				
-			//}
-			//else{
+			
+			if(check_brute($user_id,$mysqli)==TRUE){
+				set_message('warning','INTENTOS');
+				header("Location: ../login.php");
+				exit();		
+			}			
+			else{
 				if($password_bd==$password){
 					$user_agent_browser=$_SERVER['HTTP_USER_AGENT'];					
 					// La idea es que no se repitan
 					$user_id=preg_replace("/^[0-9]+/","",$user_id);
 					$_SESSION['user_id']=$user_id;
 					// El filtrado es para sanear los datos que voy a guardar en mi arreglo
-					$username=preg_replace("/[^a-zA-Z0-9_\-]","",$username);				
+					$username=preg_replace("/[^a-zA-Z0-9_\-]+/","",$username);				
 					$_SESSION['username']=$username;
 					return true;
 				}
@@ -43,39 +48,43 @@ function login($email,$password,$mysqli){
 					$now=time();
 					// Extrapolación de variables, en el momento que lo encuentra lo sustituye
 					if(!$mysqli->query("INSERT INTO login_attempts(user_id,time) values ('$user_id','$now')")){
-						header("Location: ../login.php?err=Error de base de datos: intentos_de_login");
+						set_message('warning','Demasiados intentos de inicio de sesión, por favor intente más tarde.');
+						header("Location: ../login.php");
 						exit();
 					}
 					return false;
 				}
-			//}
+			}
 		}
 		else{
 			return false;
 		}
 	}
 	else{
-		header("Location: ../login.php?err=Error DB: no puede lanzar statement");
+		set_message('warning','Error DB: no puede lanzar statement.');
+		header("Location: ../login.php");
 		exit();
 	}
 }
 			
 function check_brute($user_id,$mysqli){
 	$now=time();
-	$intentos=$now() - (2*60*60);
-	if($stmt=$mysqli->prepare("select time from login_attemps where user_id=? and time>'$intentos'")){
+	$intentos=$now-(2*60*60);
+	if($stmt=$mysqli->prepare("select time from login_attempts where user_id=? and time < '$intentos'")){
+	//if($stmt=$mysqli->prepare("select time from login_attempts where user_id=1")){
 		$stmt->bind_param('i',$user_id);
 		$stmt->execute();
 		$stmt->store_result();
-		if($stmt->num_rows>5){
-			return true;			
+		if($stmt->num_rows>10){	
+			return TRUE;			
 		}
 		else{
 			return false;
 		}
 	}
-	else{
-		header("Location: ../login.php?err=Error DB: no puedo lanzar statement");
+	else{		
+		set_message('warning','Error DB: no puede lanzar statement.');
+		header("Location: ../login.php");
 		exit();
 	}
 }
@@ -146,6 +155,71 @@ function esc_url($url){
 		else{
 			return $url;
 		}
+	}
+}
+function set_message($type='warning',$message){
+	$_SESSION['message']=array('type'=>$type,'message'=>$message);
+}
+function get_message(){
+	if(isset($_SESSION['message'])){
+		$msg=sprintf("<div class='alert alert-%s' role='alert'>%s</div>",$_SESSION['message']['type'],$_SESSION['message']['message']);		
+		unset($_SESSION['message']);
+		return $msg;
+	}		
+	else{
+		return '';
+	}
+}
+function register_user($mysqli,$username,$email,$password){
+	$msg=''; 
+	$username=filter_input(INPUT_POST,'username',FILTER_SANITIZE_STRING);
+	$email=filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL);		
+	$email=filter_var($email,FILTER_VALIDATE_EMAIL);
+	//$password=filter_input(INPUT_POST,'password',FILTER_SANITIZE_STRING);
+	if($email == FALSE){
+		$msg.='<p>La dirección de correo no es válida, por favor revisa los datos.</p>';
+		set_message('danger',$msg);
+		header("Location: ../login.php");
+		exit();
+	}
+	if(strlen($password) != 128){
+		$msg.='<p>Password no válido.</p>';
+	}
+	$pre_stmt="SELECT id FROM members WHERE email=? LIMIT 1";	
+	$stmt = $mysqli->prepare($pre_stmt);
+	
+	if($stmt){
+		$stmt->bind_param('s',$email);
+		$stmt->execute();
+		$stmt->store_result();
+		if($stmt->num_rows == 1){			
+			$msg.='<p>Ya existe un usuario con esta dirección de correo.</p>';		
+		}
+	}
+	else{
+		$msg.='<p>Error de Base de Datos</p>';
+	}
+	if(empty($msg)){										   
+		$random_salt= hash('sha512',uniqid(openssl_random_pseudo_bytes(16),true));
+		$password = hash('sha512',$password.$random_salt);
+		if($insert_stmt = $mysqli->prepare("INSERT INTO members(username,email,password,salt) VALUES (?,?,?,?) ")){
+			$insert_stmt->bind_param('ssss',$username,$email,$password,$random_salt);
+			if(!$insert_stmt->execute()){
+				$msg.='<p>No se pudo introducir el registro en la BD </p>';
+				set_message('danger',$msg);
+				header("Location: ../login.php");
+				exit();				
+			}			
+		}
+		$msg.="<p>Usuario registrado!</p>";
+		set_message('success',$msg);
+		header("Location: ../login.php");
+		exit();				
+	}
+	else{
+		set_message('danger',$msg);
+		header("Location: ../login.php");
+		exit();
 	}
 }
 ?>
